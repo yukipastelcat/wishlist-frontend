@@ -33,14 +33,14 @@
 {#if type === 'link'}
 	<a
 		{...rest}
-		class={`${classList} ${rest.class} inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all space-x-1 rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ease-[cubic-bezier(0,0,0,1)]`}
+		class={`${classList} ${rest.class} inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all space-x-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ease-[cubic-bezier(0,0,0,1)]`}
 	>
 		{@render children?.()}
 	</a>
 {:else}
 	<button
 		{...rest}
-		class={`${classList} ${rest.class} inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all space-x-1 rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ease-[cubic-bezier(0,0,0,1)] hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-50`}
+		class={`${classList} ${rest.class} inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all space-x-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ease-[cubic-bezier(0,0,0,1)] hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-50`}
 	>
 		{@render children?.()}
 	</button>
