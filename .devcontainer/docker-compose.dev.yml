@@ -1,0 +1,8 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    environment:
+      - NODE_ENV=development
+        API_URL=http://localhost:3000
