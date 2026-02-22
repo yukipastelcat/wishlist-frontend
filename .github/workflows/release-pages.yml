@@ -39,8 +39,8 @@ jobs:
         run: npm run build
         env:
           BUILD_TARGET: github-pages
-          VITE_AUTH_API_URL: ${{ vars.VITE_AUTH_API_URL }}
-          VITE_GIFTS_API_URL: ${{ vars.VITE_GIFTS_API_URL }}
+          PUBLIC_AUTH_API_URL: ${{ vars.PUBLIC_AUTH_API_URL }}
+          PUBLIC_GIFTS_API_URL: ${{ vars.PUBLIC_GIFTS_API_URL }}
 
       - name: Write CNAME
         if: vars.PAGES_DOMAIN != ''

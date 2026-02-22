@@ -1,8 +1,9 @@
 import { authHeaderMiddleware, tokenRefreshMiddleware } from "./auth.middleware";
 import { ApiClient } from "./client";
 import type { User } from "$lib/types/auth";
+import { PUBLIC_AUTH_API_URL } from '$env/static/public';
 
-const AUTH_API_BASE_URL = import.meta.env.VITE_AUTH_API_URL;
+const AUTH_API_BASE_URL = PUBLIC_AUTH_API_URL;
 
 export const authApiClient = new ApiClient(AUTH_API_BASE_URL);
 authApiClient.useRequestMiddleware(async (ctx) => ({
