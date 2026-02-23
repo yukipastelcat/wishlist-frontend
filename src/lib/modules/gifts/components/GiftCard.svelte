@@ -7,6 +7,7 @@
 	import { useAsyncAction } from '$lib/utils/action';
 	import Badge from '$lib/components/Badge.svelte';
 	import { m } from '$lib/paraglide/messages';
+	import { getEditorJsDocumentPlainText } from '$lib/utils/editor';
 
 	type GiftCardProps = Gift & {
 		link?: string;
@@ -43,6 +44,10 @@
 	const { action: handleUnreserve, pending: unreservePending } = useAsyncAction(async () => {
 		await onunreserve?.(id);
 	});
+
+	const descriptionText = $derived(
+		description ? getEditorJsDocumentPlainText(description) : ''
+	);
 </script>
 
 <div
@@ -70,9 +75,11 @@
 		<h3 class="font-semibold text-slate-900 text-lg mb-1.5 line-clamp-1">
 			{title}
 		</h3>
-		<p class="text-sm text-slate-600 mb-3 line-clamp-2 leading-relaxed">
-			{description}
-		</p>
+		{#if descriptionText}
+			<p class="text-sm text-slate-600 mb-3 line-clamp-2 leading-relaxed">
+				{descriptionText}
+			</p>
+		{/if}
 		<div class="flex items-center justify-between mt-auto">
 			{#if price}
 				<span class="text-lg font-semibold text-slate-900">

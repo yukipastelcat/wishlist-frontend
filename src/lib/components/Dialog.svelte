@@ -2,6 +2,8 @@
 	import { fade, scale } from 'svelte/transition';
 	import { cubicOut, cubicIn } from 'svelte/easing';
 
+	const BODY_LOCK_ATTR = 'data-dialog-lock-count';
+
 	const { open, onclose, children, actions } = $props<{
 		onclose?: () => void;
 		children?: () => any;
@@ -21,13 +23,48 @@
 	}
 
 	$effect(() => {
+		lockBodyScroll();
 		window.addEventListener('keydown', handleKeydown);
-		return () => window.removeEventListener('keydown', handleKeydown);
+		return () => {
+			window.removeEventListener('keydown', handleKeydown);
+			unlockBodyScroll();
+		};
 	});
+
+	function lockBodyScroll() {
+		const body = document.body;
+		const root = document.documentElement;
+		const currentCount = Number(body.getAttribute(BODY_LOCK_ATTR) ?? '0');
+		const nextCount = currentCount + 1;
+		body.setAttribute(BODY_LOCK_ATTR, String(nextCount));
+
+		if (currentCount > 0) return;
+
+		const scrollbarWidth = window.innerWidth - root.clientWidth;
+		body.style.overflow = 'hidden';
+		if (scrollbarWidth > 0) {
+			body.style.paddingRight = `${scrollbarWidth}px`;
+		}
+	}
+
+	function unlockBodyScroll() {
+		const body = document.body;
+		const currentCount = Number(body.getAttribute(BODY_LOCK_ATTR) ?? '0');
+		const nextCount = Math.max(0, currentCount - 1);
+
+		if (nextCount === 0) {
+			body.removeAttribute(BODY_LOCK_ATTR);
+			body.style.overflow = '';
+			body.style.paddingRight = '';
+			return;
+		}
+
+		body.setAttribute(BODY_LOCK_ATTR, String(nextCount));
+	}
 </script>
 
 <div
-	class="fixed inset-0 z-10 flex items-center justify-center bg-stone-950/10 backdrop-blur-sm"
+	class="items-safe-center fixed inset-0 z-10 flex justify-center overflow-y-auto bg-stone-950/10 p-4 backdrop-blur-sm sm:p-6"
 	role="presentation"
 	onclick={handleBackdropClick}
 	in:fade={{ duration: 180 }}

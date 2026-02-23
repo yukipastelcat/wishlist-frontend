@@ -2,7 +2,14 @@
 	import { m } from '$lib/paraglide/messages';
 	import { getLocale, locales } from '$lib/paraglide/runtime';
 	import Tabs from '$lib/components/Tabs.svelte';
+	import EditorJsInput from '$lib/components/EditorJsInput.svelte';
+	import type { EditorJsDocument } from '$lib/types/editor';
 	import { useFormStore } from '$lib/utils/form';
+	import {
+		createEditorJsDocumentFromText,
+		getEditorJsDocumentPlainText,
+		normalizeEditorJsDocument
+	} from '$lib/utils/editor';
 	import type { HTMLAttributes } from 'svelte/elements';
 
 	type TagOption = {
@@ -13,7 +20,7 @@
 
 	type GiftFormState = {
 		titleLocalized: Record<string, string>;
-		descriptionLocalized: Record<string, string>;
+		descriptionLocalized: Record<string, EditorJsDocument>;
 		imageUrl: string;
 		link: string;
 		priceAmount: string;
@@ -26,7 +33,7 @@
 		title: string;
 		description?: string;
 		titleLocalized: Record<string, string>;
-		descriptionLocalized?: Record<string, string>;
+		descriptionLocalized?: Record<string, EditorJsDocument>;
 		imageUrl?: string;
 		link?: string;
 		price?: {
@@ -65,6 +72,26 @@
 		return result;
 	}
 
+	function toLocalizedEditorStateMap(value: unknown): Record<string, EditorJsDocument> {
+		const result: Record<string, EditorJsDocument> = {};
+		if (!value || typeof value !== 'object' || Array.isArray(value)) {
+			return result;
+		}
+
+		for (const locale of locales) {
+			const current = (value as Record<string, unknown>)[locale];
+			const normalized = normalizeEditorJsDocument(current);
+			if (!normalized) continue;
+
+			const plainText = getEditorJsDocumentPlainText(normalized);
+			if (!plainText) continue;
+
+			result[locale] = normalized;
+		}
+
+		return result;
+	}
+
 	function withFallbackLocaleValue(
 		value: Record<string, string>,
 		fallback: string | undefined
@@ -80,6 +107,21 @@
 		};
 	}
 
+	function withFallbackEditorLocaleValue(
+		value: Record<string, EditorJsDocument>,
+		fallback: string | undefined
+	): Record<string, EditorJsDocument> {
+		const fallbackText = fallback?.trim();
+		if (!fallbackText) return value;
+		if (Object.keys(value).length > 0) return value;
+
+		const defaultLocale = getLocale();
+		return {
+			...value,
+			[defaultLocale]: createEditorJsDocumentFromText(fallbackText)
+		};
+	}
+
 	function toRequestLocalizedMap(value: Record<string, string>): Record<string, string> | undefined {
 		const result: Record<string, string> = {};
 		for (const locale of locales) {
@@ -87,6 +129,22 @@
 			if (next) {
 				result[locale] = next;
 			}
+		}
+
+		return Object.keys(result).length > 0 ? result : undefined;
+	}
+
+	function toRequestLocalizedEditorMap(
+		value: Record<string, EditorJsDocument>
+	): Record<string, EditorJsDocument> | undefined {
+		const result: Record<string, EditorJsDocument> = {};
+		for (const locale of locales) {
+			const current = value[locale];
+			if (!current) continue;
+			const plainText = getEditorJsDocumentPlainText(current);
+			if (!plainText) continue;
+
+			result[locale] = current;
 		}
 
 		return Object.keys(result).length > 0 ? result : undefined;
@@ -122,10 +180,16 @@
 			toLocalizedStateMap(initialData?.descriptionLocalized),
 			initialData?.description
 		);
+		const localizedEditorDescription = withFallbackEditorLocaleValue(
+			toLocalizedEditorStateMap(initialData?.descriptionLocalized),
+			Object.keys(localizedDescription).length > 0
+				? Object.values(localizedDescription)[0]
+				: initialData?.description
+		);
 
 		const next: GiftFormState = {
 			titleLocalized: localizedTitle,
-			descriptionLocalized: localizedDescription,
+			descriptionLocalized: localizedEditorDescription,
 			imageUrl: initialData?.imageUrl ?? '',
 			link: initialData?.link ?? '',
 			priceAmount:
@@ -154,10 +218,10 @@
 			return;
 		}
 
-		const descriptionLocalized = toRequestLocalizedMap(data.descriptionLocalized);
+		const descriptionLocalized = toRequestLocalizedEditorMap(data.descriptionLocalized);
 		const fallbackTitle = Object.values(titleLocalized)[0];
 		const fallbackDescription = descriptionLocalized
-			? Object.values(descriptionLocalized)[0]
+			? getEditorJsDocumentPlainText(Object.values(descriptionLocalized)[0])
 			: undefined;
 		const priceAmount =
 			Number.isFinite(normalizedPriceAmount) && normalizedPriceAmount !== undefined
@@ -186,9 +250,10 @@
 		label: locale.toUpperCase()
 	}));
 	let activeLocalizedLocale = $state<string>(locales[0] ?? 'en');
+	const descriptionEditorId = $derived(`description-editor-${activeLocalizedLocale}`);
 
 	function updateLocalizedField(
-		field: 'titleLocalized' | 'descriptionLocalized',
+		field: 'titleLocalized',
 		locale: string,
 		value: string
 	) {
@@ -196,6 +261,16 @@
 			...current,
 			[field]: {
 				...current[field],
+				[locale]: value
+			}
+		}));
+	}
+
+	function updateLocalizedDescription(locale: string, value: EditorJsDocument) {
+		formData.update((current) => ({
+			...current,
+			descriptionLocalized: {
+				...current.descriptionLocalized,
 				[locale]: value
 			}
 		}));
@@ -243,23 +318,19 @@
 			/>
 		</label>
 
-		<label class="flex flex-col">
-			<span class="form-label">
+		<div class="flex flex-col">
+			<label class="form-label" for={descriptionEditorId}>
 				{m.gift_form_description({ locale: activeLocalizedLocale.toUpperCase() })}
-			</span>
-			<textarea
-				class="form-textarea"
-				name={`descriptionLocalized.${activeLocalizedLocale}`}
-				rows="3"
-				value={$formData.descriptionLocalized[activeLocalizedLocale] ?? ''}
-				oninput={(event) =>
-					updateLocalizedField(
-						'descriptionLocalized',
-						activeLocalizedLocale,
-						(event.currentTarget as HTMLTextAreaElement).value
-					)}
-			></textarea>
-		</label>
+			</label>
+			{#key activeLocalizedLocale}
+				<EditorJsInput
+					id={descriptionEditorId}
+					class="min-h-36"
+					value={$formData.descriptionLocalized[activeLocalizedLocale]}
+					onchange={(value) => updateLocalizedDescription(activeLocalizedLocale, value)}
+				/>
+			{/key}
+		</div>
 	</fieldset>
 
 	<label class="flex flex-col">

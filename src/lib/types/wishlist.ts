@@ -1,3 +1,5 @@
+import type { EditorJsDocument } from '$lib/types/editor';
+
 export type CursorPaginatedResponse<T> = {
 	data: T[];
 	meta: {
@@ -24,7 +26,7 @@ export type Gift = {
 	id: string;
 	createdAt: string;
 	title: string;
-	description?: string;
+	description?: EditorJsDocument;
 	imageUrl?: string;
 	link?: string;
 	price?: GiftPrice | null;
@@ -38,7 +40,7 @@ export type GiftEditPayload = {
 	id: string;
 	createdAt: string;
 	titleLocalized: LocalizedTextMap;
-	descriptionLocalized?: LocalizedTextMap;
+	descriptionLocalized?: Record<string, EditorJsDocument>;
 	imageUrl?: string;
 	link?: string;
 	price?: GiftPrice | null;
@@ -63,7 +65,7 @@ export type ListTagsQuery = {
 
 export type GiftWriteDto = {
 	titleLocalized: LocalizedTextMap;
-	descriptionLocalized?: LocalizedTextMap;
+	descriptionLocalized?: Record<string, EditorJsDocument>;
 	imageUrl?: string;
 	link?: string;
 	price?: GiftPrice;

@@ -13,7 +13,17 @@
 	name="Guest mode"
 	args={{
 		title: 'Gift Name',
-		description: 'A beautiful gift for any occasion',
+		description: {
+			version: '2.29.1',
+			blocks: [
+				{
+					type: 'paragraph',
+					data: {
+						text: 'A beautiful gift for any occasion'
+					}
+				}
+			]
+		},
 		imageUrl: 'https://placehold.co/400x300',
 		link: 'https://example.com/gift',
 		price: {
@@ -30,7 +40,17 @@
 	name="Admin mode"
 	args={{
 		title: 'Gift Name',
-		description: 'A beautiful gift for any occasion',
+		description: {
+			version: '2.29.1',
+			blocks: [
+				{
+					type: 'paragraph',
+					data: {
+						text: 'A beautiful gift for any occasion'
+					}
+				}
+			]
+		},
 		imageUrl: 'https://placehold.co/400x300',
 		link: 'https://example.com/gift',
 		price: {
@@ -47,7 +67,17 @@
 	name="User mode"
 	args={{
 		title: 'Gift Name',
-		description: 'A beautiful gift for any occasion',
+		description: {
+			version: '2.29.1',
+			blocks: [
+				{
+					type: 'paragraph',
+					data: {
+						text: 'A beautiful gift for any occasion'
+					}
+				}
+			]
+		},
 		imageUrl: 'https://placehold.co/400x300',
 		link: 'https://example.com/gift',
 		claimable: true,

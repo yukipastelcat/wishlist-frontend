@@ -4,6 +4,7 @@
 	import { list as listTags } from '$lib/api/tags';
 	import Button from '$lib/components/Button.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
+	import EditorJsContent from '$lib/components/EditorJsContent.svelte';
 	import ImageWithFallback from '$lib/components/ImageWithFallback.svelte';
 	import GiftForm, { type GiftFormData } from '$lib/modules/gifts/components/GiftForm.svelte';
 	import { m } from '$lib/paraglide/messages';
@@ -125,7 +126,7 @@
 		<div class="flex flex-col space-y-4">
 			<h1 class="text-2xl font-semibold text-slate-900">{gift.title}</h1>
 			{#if gift.description}
-				<p class="text-slate-600">{gift.description}</p>
+				<EditorJsContent document={gift.description} />
 			{/if}
 
 			<div class="mt-auto flex items-center justify-between">
