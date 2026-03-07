@@ -80,6 +80,12 @@ export async function unreserve(id: string) {
 	});
 }
 
+export async function prolongReservation(id: string) {
+	return giftsApiClient.request<Gift>(`/gifts/${id}/prolong-reservation`, {
+		method: 'POST',
+	});
+}
+
 // Backward-compatible aliases
 export const claim = reserve;
 export const unclaim = unreserve;
