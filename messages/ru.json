@@ -22,6 +22,7 @@
 	"gift_action_edit": "Изменить",
 	"gift_action_reserve": "Забронировать",
 	"gift_action_unreserve": "Снять бронь",
+	"gift_action_reserved": "Забронировано",
 	"gift_status_reserved": "Забронирован",
 	"gift_status_your_reservation": "Ваша бронь",
 	"gift_sign_in_to_reserve": "Войдите, чтобы забронировать",

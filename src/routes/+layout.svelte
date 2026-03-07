@@ -2,13 +2,15 @@
 	import './layout.css';
 	import { page } from '$app/state';
 	import { locales, localizeHref } from '$lib/paraglide/runtime';
-	import favicon from '$lib/assets/favicon.svg';
 	import Navbar from '$lib/components/Navbar.svelte';
 
 	let { children } = $props();
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head>
+	<title>Wishlist</title>
+	<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+</svelte:head>
 
 <div class="min-h-screen bg-slate-50 transition-colors duration-500">
 	<Navbar />
