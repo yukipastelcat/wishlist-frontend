@@ -8,7 +8,7 @@
 		...rest
 	} = $props<
 		{
-			skin?: 'primary' | 'text' | 'outlined' | 'cta';
+			skin?: 'primary' | 'text' | 'outlined' | 'cta' | 'danger';
 			type?: 'button' | 'submit' | 'reset' | 'link';
 			form?: string;
 			children?: () => any;
@@ -23,6 +23,8 @@
 				return 'bg-transparent border border-sky-700 text-sky-700 hover:bg-sky-50 hover:border-sky-800 active:bg-sky-100';
 			case 'cta':
 				return 'bg-gradient-to-r from-sky-600 to-sky-700 text-white hover:from-sky-700 hover:to-sky-800 active:from-sky-800 active:to-sky-900 shadow-md shadow-sky-500/25';
+			case 'danger':
+				return 'bg-red-600 hover:bg-red-700 active:bg-red-800 text-white';
 			case 'contained':
 			default:
 				return 'bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white';

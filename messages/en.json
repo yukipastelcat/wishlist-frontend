@@ -54,5 +54,11 @@
 	"error_failed_update_gift": "Failed to update gift",
 	"error_failed_create_gift": "Failed to create gift",
 	"error_failed_reserve_gift": "Failed to reserve gift",
-	"error_failed_unreserve_gift": "Failed to unreserve gift"
+	"error_failed_unreserve_gift": "Failed to unreserve gift",
+	"gift_action_delete": "Delete",
+	"gift_delete_title": "Delete Gift",
+	"gift_delete_confirm_message": "Are you sure you want to delete this gift? This action cannot be undone.",
+	"gift_delete_reserved_title": "Gift is Reserved",
+	"gift_delete_reserved_message": "This gift is currently reserved by someone. Deleting it will cancel their reservation and they will be notified by email.",
+	"error_failed_delete_gift": "Failed to delete gift"
 }

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
-	import { create, getForEdit, reserve, unreserve, update } from '$lib/api/gifts.js';
+	import { create, forceRemove, getForEdit, getReservationStatus, remove, reserve, unreserve, update } from '$lib/api/gifts.js';
 	import AddGiftCard from '$lib/modules/gifts/components/AddGiftCard.svelte';
 	import GiftCard from '$lib/modules/gifts/components/GiftCard.svelte';
 	import GiftForm, { type GiftFormData } from '$lib/modules/gifts/components/GiftForm.svelte';
@@ -14,6 +14,7 @@
 	const canCreateGift = auth.hasPermission('gift', 'create');
 	const canViewGift = auth.hasPermission('gift', 'view');
 	const canEditGift = auth.hasPermission('gift', 'edit');
+	const canDeleteGift = auth.hasPermission('gift', 'delete');
 	const canReserveGift = auth.hasPermission('gift-reservation', 'create');
 	const canUnreserveGift = auth.hasPermission('gift-reservation', 'delete');
 
@@ -27,6 +28,13 @@
 	let giftDialogEditId = $state<string | null>(null);
 	let giftDialogInitialData = $state<Partial<GiftFormData> | undefined>(undefined);
 	const GIFT_DIALOG_FORM_ID = 'gift-dialog-form';
+
+	// 'confirm'  – initial "are you sure?" dialog
+	// 'reserved' – warning dialog shown after backend responds with GIFT_RESERVED
+	let deleteDialogState = $state<'confirm' | 'reserved' | null>(null);
+	let deleteGiftId = $state<string | null>(null);
+	let deleteDialogSubmitting = $state(false);
+	let deleteDialogError = $state<string | null>(null);
 
 	const previousHref = $derived.by(() => {
 		if (!hasPreviousPage || previousCursorRaw === undefined) return undefined;
@@ -114,6 +122,48 @@
 		await unreserve(giftId);
 		await invalidateAll();
 	}
+
+	async function openDeleteDialog(giftId: string) {
+		deleteGiftId = giftId;
+		deleteDialogError = null;
+		const { isReserved } = await getReservationStatus(giftId);
+		deleteDialogState = isReserved ? 'reserved' : 'confirm';
+	}
+
+	function closeDeleteDialog() {
+		if (deleteDialogSubmitting) return;
+		deleteDialogState = null;
+	}
+
+	async function submitDeleteConfirm() {
+		if (!deleteGiftId) return;
+		deleteDialogError = null;
+		deleteDialogSubmitting = true;
+		try {
+			await remove(deleteGiftId);
+			deleteDialogState = null;
+			await invalidateAll();
+		} catch {
+			deleteDialogError = m.error_failed_delete_gift();
+		} finally {
+			deleteDialogSubmitting = false;
+		}
+	}
+
+	async function submitForceDelete() {
+		if (!deleteGiftId) return;
+		deleteDialogError = null;
+		deleteDialogSubmitting = true;
+		try {
+			await forceRemove(deleteGiftId);
+			deleteDialogState = null;
+			await invalidateAll();
+		} catch {
+			deleteDialogError = m.error_failed_delete_gift();
+		} finally {
+			deleteDialogSubmitting = false;
+		}
+	}
 </script>
 
 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -128,10 +178,12 @@
 			{...gift}
 			canViewGift={$canViewGift}
 			canEditGift={$canEditGift}
+			canDeleteGift={$canDeleteGift}
 			canReserveGift={$canReserveGift || $canUnreserveGift}
 			onedit={editGift}
 			onreserve={reserveGift}
 			onunreserve={unreserveGift}
+			ondelete={openDeleteDialog}
 		/>
 	{/each}
 </div>
@@ -162,6 +214,54 @@
 				{giftDialogMode === 'create' ? m.common_create() : m.common_save()}
 			</Button>
 			<Button skin="text" type="button" disabled={giftDialogSubmitting} onclick={closeGiftDialog}>
+				{m.common_cancel()}
+			</Button>
+		{/snippet}
+	</Dialog>
+{/if}
+
+{#if deleteDialogState === 'confirm'}
+	<Dialog onclose={closeDeleteDialog}>
+		{#snippet children()}
+			<div class="w-full">
+				<h1 class="mb-4 text-2xl font-semibold">{m.gift_delete_title()}</h1>
+				<p class="text-slate-700">{m.gift_delete_confirm_message()}</p>
+				{#if deleteDialogError}
+					<p class="mt-3 text-sm text-red-600">{deleteDialogError}</p>
+				{/if}
+			</div>
+		{/snippet}
+
+		{#snippet actions()}
+			<Button skin="danger" type="button" disabled={deleteDialogSubmitting} onclick={submitDeleteConfirm}>
+				{m.gift_action_delete()}
+			</Button>
+			<Button skin="text" type="button" disabled={deleteDialogSubmitting} onclick={closeDeleteDialog}>
+				{m.common_cancel()}
+			</Button>
+		{/snippet}
+	</Dialog>
+{/if}
+
+{#if deleteDialogState === 'reserved'}
+	<Dialog onclose={closeDeleteDialog}>
+		{#snippet children()}
+			<div class="w-full">
+				<h1 class="mb-4 text-2xl font-semibold">{m.gift_delete_reserved_title()}</h1>
+				<div class="rounded-lg border-l-4 border-amber-400 bg-amber-50 p-4 text-amber-800">
+					{m.gift_delete_reserved_message()}
+				</div>
+				{#if deleteDialogError}
+					<p class="mt-3 text-sm text-red-600">{deleteDialogError}</p>
+				{/if}
+			</div>
+		{/snippet}
+
+		{#snippet actions()}
+			<Button skin="danger" type="button" disabled={deleteDialogSubmitting} onclick={submitForceDelete}>
+				{m.gift_action_delete()}
+			</Button>
+			<Button skin="text" type="button" disabled={deleteDialogSubmitting} onclick={closeDeleteDialog}>
 				{m.common_cancel()}
 			</Button>
 		{/snippet}

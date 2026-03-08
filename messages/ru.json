@@ -54,5 +54,11 @@
 	"error_failed_update_gift": "Не удалось обновить подарок",
 	"error_failed_create_gift": "Не удалось создать подарок",
 	"error_failed_reserve_gift": "Не удалось забронировать подарок",
-	"error_failed_unreserve_gift": "Не удалось снять бронь"
+	"error_failed_unreserve_gift": "Не удалось снять бронь",
+	"gift_action_delete": "Удалить",
+	"gift_delete_title": "Удалить подарок",
+	"gift_delete_confirm_message": "Вы уверены, что хотите удалить этот подарок? Это действие нельзя отменить.",
+	"gift_delete_reserved_title": "Подарок забронирован",
+	"gift_delete_reserved_message": "Этот подарок сейчас кем-то забронирован. Удаление отменит бронь и уведомит пользователя по email.",
+	"error_failed_delete_gift": "Не удалось удалить подарок"
 }

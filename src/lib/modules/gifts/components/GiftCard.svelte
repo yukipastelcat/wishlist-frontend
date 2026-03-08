@@ -3,7 +3,7 @@
 	import type { Gift } from '$lib/types/wishlist';
 	import Button from '$lib/components/Button.svelte';
 	import { FontAwesomeIcon } from 'fontawesome-svelte';
-	import { faEdit as fasEdit, faExternalLink as fasExternalLink } from '@fortawesome/free-solid-svg-icons';
+	import { faEdit as fasEdit, faExternalLink as fasExternalLink, faTrash as fasTrash } from '@fortawesome/free-solid-svg-icons';
 	import { useAsyncAction } from '$lib/utils/action';
 	import Badge from '$lib/components/Badge.svelte';
 	import { m } from '$lib/paraglide/messages';
@@ -14,9 +14,11 @@
 		canViewGift?: boolean;
 		canEditGift?: boolean;
 		canReserveGift?: boolean;
+		canDeleteGift?: boolean;
 		onedit?: (id: string) => void | Promise<void>;
 		onreserve?: (id: string) => void | Promise<void>;
 		onunreserve?: (id: string) => void | Promise<void>;
+		ondelete?: (id: string) => void | Promise<void>;
 	};
 
 	let {
@@ -32,9 +34,11 @@
 		canViewGift = false,
 		canEditGift = false,
 		canReserveGift = false,
+		canDeleteGift = false,
 		onedit,
 		onreserve,
-		onunreserve
+		onunreserve,
+		ondelete
 	}: GiftCardProps = $props();
 
 	const { action: handleReserve, pending: reservePending } = useAsyncAction(async () => {
@@ -43,6 +47,10 @@
 
 	const { action: handleUnreserve, pending: unreservePending } = useAsyncAction(async () => {
 		await onunreserve?.(id);
+	});
+
+	const { action: handleDelete, pending: deletePending } = useAsyncAction(async () => {
+		await ondelete?.(id);
 	});
 
 	const descriptionText = $derived(
@@ -113,6 +121,11 @@
 					<span>{m.gift_action_edit()}</span>
 				</Button>
 			{/if}
+			{#if canDeleteGift}
+				<Button type="button" skin="danger" class="!px-3" title={m.gift_action_delete()} disabled={$deletePending} onclick={handleDelete}>
+					<FontAwesomeIcon icon={fasTrash as any} />
+				</Button>
+			{/if}
 			{#if canReserveGift && claimable}
 				{#if isReservedByMe}
 					<Button
@@ -138,7 +151,7 @@
 					</Button>
 				{/if}
 			{/if}
-			{#if !canViewGift && !canEditGift && !canReserveGift}
+			{#if !canViewGift && !canEditGift && !canReserveGift && !canDeleteGift}
 				<Button type="link" href="/login" class="flex-1" skin="cta">
 					{m.gift_sign_in_to_reserve()}
 				</Button>

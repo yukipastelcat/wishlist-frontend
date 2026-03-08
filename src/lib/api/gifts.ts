@@ -62,8 +62,18 @@ export async function update(id: string, data: Partial<GiftWriteDto>) {
 	});
 }
 
+export async function getReservationStatus(id: string) {
+	return giftsApiClient.request<{ isReserved: boolean }>(`/gifts/${id}/reservation-status`);
+}
+
 export async function remove(id: string) {
 	return giftsApiClient.request<Gift>(`/gifts/${id}`, {
+		method: 'DELETE',
+	});
+}
+
+export async function forceRemove(id: string) {
+	return giftsApiClient.request<Gift>(`/gifts/${id}/force`, {
 		method: 'DELETE',
 	});
 }
