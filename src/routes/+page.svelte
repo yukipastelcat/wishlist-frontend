@@ -1,14 +1,21 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
-	import { create, forceRemove, getForEdit, getReservationStatus, remove, reserve, unreserve, update } from '$lib/api/gifts.js';
+	import { create, forceRemove, getForEdit, getReservationStatus, list, remove, reserve, unreserve, update } from '$lib/api/gifts.js';
 	import AddGiftCard from '$lib/modules/gifts/components/AddGiftCard.svelte';
 	import GiftCard from '$lib/modules/gifts/components/GiftCard.svelte';
 	import GiftForm, { type GiftFormData } from '$lib/modules/gifts/components/GiftForm.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Dialog from '$lib/components/Dialog.svelte';
-	import Pagination from '$lib/components/Pagination.svelte';
+	import VirtualizedHorizontalList from '$lib/components/VirtualizedHorizontalList.svelte';
+	import PaginationDots from '$lib/components/PaginationDots.svelte';
 	import { m } from '$lib/paraglide/messages';
 	import { auth } from '$lib/stores/auth.store';
+	import type { Gift } from '$lib/types/wishlist';
+
+	const ITEM_WIDTH = 300;
+	const ITEM_HEIGHT = 500;
+	const ITEM_GAP = 24;
+	const PAGE_LIMIT = 9;
 
 	let { data } = $props();
 	const canCreateGift = auth.hasPermission('gift', 'create');
@@ -18,9 +25,57 @@
 	const canReserveGift = auth.hasPermission('gift-reservation', 'create');
 	const canUnreserveGift = auth.hasPermission('gift-reservation', 'delete');
 
-	const previousCursorRaw = $derived(data.pagination.cursorHistory.at(-1));
-	const hasPreviousPage = $derived(data.pagination.cursorHistory.length > 0);
-	const hasNextPage = $derived(Boolean(data.giftsMeta.hasNextPage && data.giftsMeta.nextCursor));
+	let gifts = $state<Gift[]>(data.gifts);
+	let nextCursor = $state<string | null>(data.giftsMeta.nextCursor);
+	let hasNextPage = $state(data.giftsMeta.hasNextPage);
+	let isLoadingMore = $state(false);
+
+	$effect(() => {
+		gifts = data.gifts;
+		nextCursor = data.giftsMeta.nextCursor;
+		hasNextPage = data.giftsMeta.hasNextPage;
+	});
+
+	type ListItem = { type: 'add' } | { type: 'gift'; gift: Gift };
+
+	const listItems = $derived.by(() => {
+		const items: ListItem[] = [];
+		if ($canCreateGift) {
+			items.push({ type: 'add' });
+		}
+		for (const gift of gifts) {
+			items.push({ type: 'gift', gift });
+		}
+		return items;
+	});
+
+	let currentPage = $state(0);
+	let totalPages = $state(1);
+	let virtualizedList: { scrollToPage: (page: number) => Promise<void> } | null = $state(null);
+
+	function handlePageChange(page: number, total: number) {
+		currentPage = page;
+		totalPages = total;
+	}
+
+	function handleDotClick(page: number) {
+		virtualizedList?.scrollToPage(page);
+	}
+
+	async function loadMoreGifts() {
+		if (isLoadingMore || !hasNextPage || !nextCursor) return;
+
+		isLoadingMore = true;
+		try {
+			const response = await list({ cursor: nextCursor, limit: PAGE_LIMIT });
+			gifts = [...gifts, ...response.data];
+			nextCursor = response.meta.nextCursor;
+			hasNextPage = response.meta.hasNextPage;
+		} finally {
+			isLoadingMore = false;
+		}
+	}
+
 	let isGiftDialogOpen = $state(false);
 	let giftDialogMode = $state<'create' | 'edit'>('create');
 	let giftDialogSubmitting = $state(false);
@@ -35,31 +90,6 @@
 	let deleteGiftId = $state<string | null>(null);
 	let deleteDialogSubmitting = $state(false);
 	let deleteDialogError = $state<string | null>(null);
-
-	const previousHref = $derived.by(() => {
-		if (!hasPreviousPage || previousCursorRaw === undefined) return undefined;
-		const nextHistory = data.pagination.cursorHistory.slice(0, -1);
-		const search = new URLSearchParams();
-
-		if (previousCursorRaw) {
-			search.set('cursor', previousCursorRaw);
-		}
-		if (nextHistory.length > 0) {
-			search.set('history', nextHistory.join(','));
-		}
-
-		const qs = search.toString();
-		return `${data.pagination.pathname}${qs ? `?${qs}` : ''}`;
-	});
-
-	const nextHref = $derived.by(() => {
-		if (!hasNextPage || !data.giftsMeta.nextCursor) return undefined;
-		const nextHistory = [...data.pagination.cursorHistory, data.pagination.currentCursor ?? ''];
-		const search = new URLSearchParams();
-		search.set('cursor', data.giftsMeta.nextCursor);
-		search.set('history', nextHistory.join(','));
-		return `${data.pagination.pathname}?${search.toString()}`;
-	});
 
 	async function createGift() {
 		giftDialogMode = 'create';
@@ -166,29 +196,45 @@
 	}
 </script>
 
-<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-	{#if $canCreateGift}
-		<AddGiftCard onclick={createGift} />
-	{/if}
-	{#if !$canCreateGift && data.gifts?.length === 0}
-		{m.gift_list_empty()}
-	{/if}
-	{#each data.gifts as gift}
-		<GiftCard
-			{...gift}
-			canViewGift={$canViewGift}
-			canEditGift={$canEditGift}
-			canDeleteGift={$canDeleteGift}
-			canReserveGift={$canReserveGift || $canUnreserveGift}
-			onedit={editGift}
-			onreserve={reserveGift}
-			onunreserve={unreserveGift}
-			ondelete={openDeleteDialog}
-		/>
-	{/each}
-</div>
+{#if listItems.length === 0}
+	<div class="flex items-center justify-center py-12">
+		<p class="text-(--palette-fg-muted)">{m.gift_list_empty()}</p>
+	</div>
+{:else}
+	<div class="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen">
+		<div class="h-[calc(100vh-10rem)] min-h-[520px] flex items-center px-8">
+			<VirtualizedHorizontalList
+				bind:this={virtualizedList}
+				items={listItems}
+				itemWidth={ITEM_WIDTH}
+				itemHeight={ITEM_HEIGHT}
+				gap={ITEM_GAP}
+				onpagechange={handlePageChange}
+				onnearend={loadMoreGifts}
+			>
+				{#snippet children(item, index)}
+					{#if item.type === 'add'}
+						<AddGiftCard onclick={createGift} />
+					{:else}
+						<GiftCard
+							{...item.gift}
+							canViewGift={$canViewGift}
+							canEditGift={$canEditGift}
+							canDeleteGift={$canDeleteGift}
+							canReserveGift={$canReserveGift || $canUnreserveGift}
+							onedit={editGift}
+							onreserve={reserveGift}
+							onunreserve={unreserveGift}
+							ondelete={openDeleteDialog}
+						/>
+					{/if}
+				{/snippet}
+			</VirtualizedHorizontalList>
+		</div>
 
-<Pagination page={data.pagination.page} {hasPreviousPage} {hasNextPage} {previousHref} {nextHref} />
+		<PaginationDots {currentPage} {totalPages} onpageclick={handleDotClick} />
+	</div>
+{/if}
 
 {#if isGiftDialogOpen}
 	<Dialog onclose={closeGiftDialog}>
