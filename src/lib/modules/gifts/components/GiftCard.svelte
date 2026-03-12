@@ -61,19 +61,20 @@
 </script>
 
 <div
-	class="group before:content[''] relative flex h-full w-full flex-col overflow-hidden rounded-2xl bg-(--palette-accent)/30 p-5 transition-all duration-300 before:absolute before:inset-2.5 before:rounded-lg before:bg-(--palette-card)"
-	style="aspect-ratio: 3 / 5;"
+	class="group before:content[''] relative flex h-full w-full flex-col overflow-hidden rounded-2xl bg-(--palette-accent)/30 p-7 transition-all duration-300 before:absolute before:inset-2.5 before:rounded-lg before:bg-(--palette-card)"
 >
-	<div class="relative z-1 flex flex-col flex-1 gap-3 min-h-0">
-		<div class="flex-shrink-0 aspect-square overflow-hidden rounded-lg shadow-md">
+	<div class="relative z-1 flex min-h-0 flex-1 flex-col gap-3">
+		<div class="aspect-square flex-shrink-0 overflow-hidden rounded-lg shadow-md">
 			<ImageWithFallback
 				src={imageUrl}
 				alt={title}
 				class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
 			/>
 		</div>
-		<div class="flex flex-1 flex-col min-h-0">
-			<h3 class="mb-1 line-clamp-2 text-base font-semibold leading-snug text-(--palette-fg) sm:text-lg">
+		<div class="flex min-h-0 flex-1 flex-col">
+			<h3
+				class="mb-1 line-clamp-2 text-base leading-snug font-semibold text-(--palette-fg) sm:text-lg"
+			>
 				{title}
 			</h3>
 			{#if descriptionText}
@@ -94,7 +95,14 @@
 						<span></span>
 					{/if}
 					{#if link}
-						<Button type="link" skin="text" href={link} target="_blank" rel="noopener noreferrer" class="text-sm shrink-0">
+						<Button
+							type="link"
+							skin="text"
+							href={link}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="shrink-0 text-sm"
+						>
 							<span>{m.gift_open_link()}</span>
 							<FontAwesomeIcon icon={fasExternalLink as any} />
 						</Button>
@@ -107,9 +115,13 @@
 						</Button>
 					{/if}
 					{#if canEditGift}
-						<Button type="button" class="flex-1 text-sm" onclick={() => onedit?.(id)}>
+						<Button
+							type="button"
+							class="!px-3"
+							title={m.gift_action_edit()}
+							onclick={() => onedit?.(id)}
+						>
 							<FontAwesomeIcon icon={fasEdit as any} />
-							<span>{m.gift_action_edit()}</span>
 						</Button>
 					{/if}
 					{#if canDeleteGift}
@@ -139,7 +151,12 @@
 								{m.gift_status_reserved()}
 							</Button>
 						{:else}
-							<Button class="flex-1 text-sm" skin="cta" disabled={$reservePending} onclick={handleReserve}>
+							<Button
+								class="flex-1 text-sm"
+								skin="cta"
+								disabled={$reservePending}
+								onclick={handleReserve}
+							>
 								{m.gift_action_reserve()}
 							</Button>
 						{/if}

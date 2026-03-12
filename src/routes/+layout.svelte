@@ -14,7 +14,7 @@
 
 <div class="min-h-screen bg-(--palette-bg) transition-colors duration-500">
 	<Navbar />
-	<main class="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+	<main class="mx-auto max-w-5xl px-4 pt-12 pb-8 sm:px-6 lg:px-8">
 		{@render children()}
 	</main>
 </div>
