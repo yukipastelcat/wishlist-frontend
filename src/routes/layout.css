@@ -63,3 +63,69 @@
 		align-items: safe center;
 	}
 }
+
+:root {
+  /* ── Surfaces ── */
+  --palette-bg:            #F5F0DC;  /* warm parchment — page background */
+  --palette-card:          #FFFBEF;  /* cream white — card & input background */
+  --palette-bg-hover:      #EAE8CE;  /* slightly deeper parchment — secondary hover surface */
+  --palette-bg-active:     #DDD8C0;  /* pressed surface */
+  --palette-disabled-bg:   #EDE8D0;  /* muted sand — disabled inputs */
+
+  /* ── Foreground / text ── */
+  --palette-fg:            #3B2C1A;  /* deep bark — primary text & CTA bg */
+  --palette-fg-muted:      #7A6F4A;  /* warm brown — secondary text, text-btn default */
+  --palette-fg-hint:       #B0A070;  /* faded gold — placeholders, hints */
+  --palette-fg-on-dark:    #FFFBEF;  /* cream — text on dark/colored fills */
+
+  /* ── Borders ── */
+  --palette-border:        #C9B97A;  /* sand gold — default border */
+  --palette-border-light:  #DDD0A0;  /* lighter gold — card borders, dividers */
+
+  /* ── Accent / green ── */
+  --palette-accent:         #5BAF3E;  /* leaf green — primary btn bg, secondary border */
+  --palette-accent-hover:   #4A9830;  /* mid green — primary btn hover */
+  --palette-accent-dark:    #3D8C28;  /* dark green — borders, secondary text, shadows */
+  --palette-accent-darker:  #2C6A1C;  /* deep green — hover shadows */
+  --palette-accent-deepest: #1E4E12;  /* forest — active shadows */
+  --palette-accent-tint:    #C8EDB8;  /* mint fill — badge bg, avatars */
+  --palette-accent-tint-fg: #27500A;  /* deep forest — text on mint */
+
+  /* ── CTA (bark) ── */
+  --palette-cta:           #3B2C1A;  /* same as --palette-fg, aliased for clarity */
+  --palette-cta-hover:     #2E2014;
+  --palette-cta-active:    #1E140A;
+  --palette-cta-shadow:    #1E140A;
+  --palette-cta-shadow-hover: #120C04;
+
+  /* ── Danger ── */
+  --palette-danger:        #D94F2B;  /* red mushroom — danger btn bg, error border */
+  --palette-danger-hover:  #BF3F20;
+
+  /* ── Disabled ── */
+  --palette-disabled-text: #B0A070;  /* same as --palette-fg-hint */
+  --palette-disabled-border: #D4CC9A;
+
+  /* ── Supporting tones ── */
+  --palette-sky:           #A8D8E8;  /* sky blue */
+  --palette-sky-tint:      #C4EAF5;  /* light sky — badge bg */
+  --palette-sky-fg:        #1A5F73;  /* dark sky — text on sky badge */
+  --palette-sand:          #E8CFA0;  /* warm sand */
+  --palette-sand-tint:     #EEE0C0;  /* light sand — badge bg */
+  --palette-sand-fg:       #7A5A20;  /* dark sand — text on sand badge */
+  --palette-blossom:       #F4B8C8;  /* cherry pink */
+  --palette-blossom-tint:  #FAD5E0;  /* light blossom — badge bg */
+  --palette-blossom-fg:    #7A2040;  /* dark blossom — text on blossom badge */
+  --palette-river:         #5AC8B0;  /* river teal */
+  --palette-sunset:        #FFD966;  /* sunset yellow */
+  --palette-amber-fg:      #BA7517;  /* amber — star ratings */
+
+  /* ── Focus rings (alpha) ── */
+  --palette-focus-green:   rgba(91, 175, 62, 0.35);
+  --palette-focus-bark:    rgba(201, 185, 122, 0.40);
+  --palette-focus-danger:  rgba(217,  79, 43, 0.25);
+
+  /* ── Radius ── */
+  --palette-radius:        10px;
+  --palette-radius-lg:     16px;
+}

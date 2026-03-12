@@ -35,7 +35,7 @@
 	}
 </script>
 
-<header class="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur-lg">
+<header class="sticky top-0 z-10 bg-(--palette-accent-tint) backdrop-blur-lg">
 	<div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6 lg:px-8">
 		<div
 			class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-sky-700 shadow-sm me-2"

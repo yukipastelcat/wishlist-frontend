@@ -12,7 +12,7 @@
 	<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 </svelte:head>
 
-<div class="min-h-screen bg-slate-50 transition-colors duration-500">
+<div class="min-h-screen bg-[#F5F0DC] transition-colors duration-500">
 	<Navbar />
 	<main class="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
 		{@render children()}

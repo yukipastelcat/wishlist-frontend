@@ -22,7 +22,7 @@
 			case 'outlined':
 				return 'bg-transparent border border-sky-700 text-sky-700 hover:bg-sky-50 hover:border-sky-800 active:bg-sky-100';
 			case 'cta':
-				return 'bg-gradient-to-r from-sky-600 to-sky-700 text-white hover:from-sky-700 hover:to-sky-800 active:from-sky-800 active:to-sky-900 shadow-md shadow-sky-500/25';
+				return 'bg-(--palette-cta) text-white hover:bg-(--palette-cta-hover) active:bg-(--palette-cta-active)';
 			case 'danger':
 				return 'bg-red-600 hover:bg-red-700 active:bg-red-800 text-white';
 			case 'contained':
