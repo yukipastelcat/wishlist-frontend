@@ -64,7 +64,7 @@
 </script>
 
 <div
-	class="items-safe-center fixed inset-0 z-10 flex justify-center overflow-y-auto bg-stone-950/10 p-4 backdrop-blur-sm sm:p-6"
+	class="items-safe-center fixed inset-0 z-10 flex justify-center overflow-y-auto bg-(--palette-cta)/10 p-4 backdrop-blur-sm sm:p-6"
 	role="presentation"
 	onclick={handleBackdropClick}
 	in:fade={{ duration: 180 }}
@@ -73,7 +73,7 @@
 	<div
 		role="dialog"
 		aria-modal="true"
-		class="prose prose-sm flex w-full max-w-md flex-col items-center justify-center space-y-4 rounded-2xl bg-white p-6 shadow-xl"
+		class="prose prose-sm flex w-full max-w-md flex-col items-center justify-center space-y-4 rounded-(--palette-radius-lg) bg-(--palette-card) p-6 shadow-xl"
 		in:scale={{
 			duration: 180,
 			start: 0.96,

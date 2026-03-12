@@ -72,17 +72,17 @@
 			/>
 		</div>
 		<div class="flex flex-1 flex-col">
-			<h3 class="mb-1.5 line-clamp-2 text-lg font-semibold text-slate-900">
+			<h3 class="mb-1.5 line-clamp-2 text-lg font-semibold text-(--palette-fg)">
 				{title}
 			</h3>
 			{#if descriptionText}
-				<p class="mb-3 line-clamp-4 text-sm leading-relaxed text-slate-600">
+				<p class="mb-3 line-clamp-4 text-sm leading-relaxed text-(--palette-fg-muted)">
 					{descriptionText}
 				</p>
 			{/if}
 			<div class="mt-auto flex items-center justify-between">
 				{#if price}
-					<span class="text-lg font-semibold text-slate-900">
+					<span class="text-lg font-semibold text-(--palette-fg)">
 						~{price.amount}
 						{price.currency}
 					</span>

@@ -17,16 +17,16 @@
 	const classList = $derived.by(() => {
 		switch (skin) {
 			case 'success':
-				return 'bg-emerald-100 text-emerald-800';
+				return 'bg-(--palette-accent-tint) text-(--palette-accent-tint-fg)';
 			case 'warning':
-				return 'bg-amber-100 text-amber-800';
+				return 'bg-(--palette-sand-tint) text-(--palette-sand-fg)';
 			case 'danger':
-				return 'bg-rose-100 text-rose-800';
+				return 'bg-(--palette-blossom-tint) text-(--palette-blossom-fg)';
 			case 'info':
-				return 'bg-sky-100 text-sky-800';
+				return 'bg-(--palette-sky-tint) text-(--palette-sky-fg)';
 			case 'neutral':
 			default:
-				return 'bg-slate-100 text-slate-700';
+				return 'bg-(--palette-bg-hover) text-(--palette-fg-muted)';
 		}
 	});
 </script>

@@ -4,31 +4,31 @@
 
 @layer components {
 	.form-label {
-		@apply mb-1 text-sm font-semibold text-slate-700;
+		@apply mb-1 text-sm font-semibold text-(--palette-fg-muted);
 	}
 
 	.form-control {
-		@apply rounded-xl border-slate-300 bg-white text-slate-900 placeholder-slate-400 shadow-sm transition-colors;
-		@apply focus:border-sky-500 focus:ring-2 focus:ring-sky-200;
+		@apply rounded-(--palette-radius) border-(--palette-border) bg-(--palette-card) text-(--palette-fg) placeholder-(--palette-fg-hint) shadow-sm transition-colors;
+		@apply focus:border-(--palette-accent) focus:ring-2 focus:ring-(--palette-focus-green);
 	}
 
 	.form-select {
-		@apply appearance-none rounded-xl border-slate-300 bg-white pe-9 text-slate-900 shadow-sm transition-colors;
-		@apply focus:border-sky-500 focus:ring-2 focus:ring-sky-200;
-		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5.25 7.75L10 12.25L14.75 7.75' stroke='%23475569' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+		@apply appearance-none rounded-(--palette-radius) border-(--palette-border) bg-(--palette-card) pe-9 text-(--palette-fg) shadow-sm transition-colors;
+		@apply focus:border-(--palette-accent) focus:ring-2 focus:ring-(--palette-focus-green);
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5.25 7.75L10 12.25L14.75 7.75' stroke='%237A6F4A' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 		background-repeat: no-repeat;
 		background-position: right 0.75rem center;
 		background-size: 1rem 1rem;
 	}
 
 	.form-textarea {
-		@apply rounded-xl border-slate-300 bg-white text-slate-900 placeholder-slate-400 shadow-sm transition-colors;
-		@apply focus:border-sky-500 focus:ring-2 focus:ring-sky-200;
+		@apply rounded-(--palette-radius) border-(--palette-border) bg-(--palette-card) text-(--palette-fg) placeholder-(--palette-fg-hint) shadow-sm transition-colors;
+		@apply focus:border-(--palette-accent) focus:ring-2 focus:ring-(--palette-focus-green);
 	}
 
 	.form-editorjs {
-		@apply rounded-xl border border-slate-300 bg-white px-3 py-2 text-slate-900 shadow-sm transition-colors;
-		@apply focus-within:border-sky-500 focus-within:ring-2 focus-within:ring-sky-200;
+		@apply rounded-(--palette-radius) border border-(--palette-border) bg-(--palette-card) px-3 py-2 text-(--palette-fg) shadow-sm transition-colors;
+		@apply focus-within:border-(--palette-accent) focus-within:ring-2 focus-within:ring-(--palette-focus-green);
 	}
 
 	.form-editorjs .codex-editor__redactor {
@@ -37,7 +37,7 @@
 
 	.form-editorjs .ce-paragraph,
 	.form-editorjs .ce-header {
-		@apply text-slate-900;
+		@apply text-(--palette-fg);
 	}
 
 	.form-editorjs .ce-toolbar,
@@ -54,7 +54,7 @@
 	}
 
 	.form-checkbox {
-		@apply rounded-md border-slate-300 text-sky-600 focus:ring-2 focus:ring-sky-200;
+		@apply rounded-md border-(--palette-border) text-(--palette-accent) focus:ring-2 focus:ring-(--palette-focus-green);
 	}
 }
 

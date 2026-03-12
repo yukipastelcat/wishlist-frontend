@@ -22,7 +22,7 @@
 </script>
 
 {#if error}
-	<p class="text-sm text-red-600">{error}</p>
+	<p class="text-sm text-(--palette-danger)">{error}</p>
 {:else}
-	<p class="text-sm text-slate-600">Canceling reservation...</p>
+	<p class="text-sm text-(--palette-fg-muted)">Canceling reservation...</p>
 {/if}

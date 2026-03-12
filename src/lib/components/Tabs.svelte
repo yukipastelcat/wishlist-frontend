@@ -24,7 +24,7 @@
 </script>
 
 <div class={className} {...rest}>
-	<div class="inline-flex flex-wrap items-center gap-1 rounded-xl bg-slate-100 p-1">
+	<div class="inline-flex flex-wrap items-center gap-1 rounded-(--palette-radius) bg-(--palette-bg-hover) p-1">
 		{#each tabs as tab}
 			<button
 				type="button"
@@ -32,8 +32,8 @@
 				aria-selected={activeTabId === tab.id}
 				class={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
 					activeTabId === tab.id
-						? 'bg-white text-slate-900 shadow-sm'
-						: 'text-slate-600 hover:bg-slate-200 hover:text-slate-800'
+						? 'bg-(--palette-card) text-(--palette-fg) shadow-sm'
+						: 'text-(--palette-fg-muted) hover:bg-(--palette-bg-active) hover:text-(--palette-fg)'
 				}`}
 				onclick={() => selectTab(tab.id)}
 			>

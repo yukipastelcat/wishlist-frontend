@@ -38,7 +38,7 @@
 <header class="sticky top-0 z-10 bg-(--palette-accent-tint) backdrop-blur-lg">
 	<div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6 lg:px-8">
 		<div
-			class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-sky-700 shadow-sm me-2"
+			class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-(--palette-accent) to-(--palette-accent-dark) shadow-sm me-2"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -50,8 +50,7 @@
 				stroke-width="2"
 				stroke-linecap="round"
 				stroke-linejoin="round"
-				class="lucide lucide-gift h-5 w-5 text-white"
-				data-fg-d4wb6="1.31:1.2630:/src/app/components/WishlistHeader.tsx:28:15:881:55:e:Gift::::::DLy4"
+				class="lucide lucide-gift h-5 w-5 text-(--palette-fg-on-dark)"
 				><rect x="3" y="8" width="18" height="4" rx="1"></rect><path d="M12 8v13"></path><path
 					d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"
 				></path><path
@@ -60,9 +59,9 @@
 			>
 		</div>
 		<div class="flex flex-col me-auto">
-			<h1 class="font-semibold tracking-tight text-slate-900">{m.app_name_wishlist()}</h1>
+			<h1 class="font-semibold tracking-tight text-(--palette-fg)">{m.app_name_wishlist()}</h1>
 			{#if $user}
-				<span class="hidden text-xs text-slate-500 sm:block">
+				<span class="hidden text-xs text-(--palette-fg-muted) sm:block">
 					{m.nav_welcome({ email: $user.email })}
 				</span>
 			{/if}

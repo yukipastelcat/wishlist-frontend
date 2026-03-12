@@ -113,9 +113,9 @@
 		{/if}
 	</menu>
 </div>
-<div class="mt-2 rounded-2xl bg-white p-6 shadow-sm">
+<div class="mt-2 rounded-(--palette-radius-lg) bg-(--palette-card) p-6 shadow-sm">
 	<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-		<div class="overflow-hidden rounded-xl bg-slate-100">
+		<div class="overflow-hidden rounded-(--palette-radius) bg-(--palette-bg-hover)">
 			<ImageWithFallback
 				src={gift.imageUrl ?? ''}
 				alt={gift.title}
@@ -124,14 +124,14 @@
 		</div>
 
 		<div class="flex flex-col space-y-4">
-			<h1 class="text-2xl font-semibold text-slate-900">{gift.title}</h1>
+			<h1 class="text-2xl font-semibold text-(--palette-fg)">{gift.title}</h1>
 			{#if gift.description}
 				<EditorJsContent document={gift.description} />
 			{/if}
 
 			<div class="mt-auto flex items-center justify-between">
 				{#if gift.price}
-					<span class="text-lg font-semibold text-slate-900">
+					<span class="text-lg font-semibold text-(--palette-fg)">
 						~{gift.price.amount}
 						{gift.price.currency}
 					</span>
@@ -156,7 +156,7 @@
 				<div class="flex flex-wrap gap-2">
 					{#each gift.tags as tag}
 						<span
-							class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm text-slate-700"
+							class="inline-flex items-center gap-2 rounded-full border border-(--palette-border-light) px-3 py-1 text-sm text-(--palette-fg-muted)"
 						>
 							<span class="inline-block h-2.5 w-2.5 rounded-full" style={`background:${tag.color};`}
 							></span>
@@ -192,7 +192,7 @@
 			</menu>
 
 			{#if $reserveError || $unreserveError}
-				<p class="text-sm text-red-600">{$reserveError ?? $unreserveError}</p>
+				<p class="text-sm text-(--palette-danger)">{$reserveError ?? $unreserveError}</p>
 			{/if}
 		</div>
 	</div>
@@ -202,7 +202,7 @@
 	<Dialog onclose={closeEditDialog}>
 		{#snippet children()}
 			<div class="w-full max-w-2xl">
-				<h1 class="mb-4 text-2xl font-semibold">{m.gift_edit_title()}</h1>
+				<h1 class="mb-4 text-2xl font-semibold text-(--palette-fg)">{m.gift_edit_title()}</h1>
 				<GiftForm
 					id={EDIT_DIALOG_FORM_ID}
 					onsubmit={submitEditDialog}
@@ -210,7 +210,7 @@
 					availableTags={editDialogTags}
 				/>
 				{#if editDialogError}
-					<p class="mt-3 text-sm text-red-600">{editDialogError}</p>
+					<p class="mt-3 text-sm text-(--palette-danger)">{editDialogError}</p>
 				{/if}
 			</div>
 		{/snippet}

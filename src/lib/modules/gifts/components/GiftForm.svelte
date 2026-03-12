@@ -387,7 +387,7 @@
 					<span>{tag.title}</span>
 					{#if tag.color}
 						<span
-							class="inline-block h-3 w-3 rounded-full border"
+							class="inline-block h-3 w-3 rounded-full border border-(--palette-border-light)"
 							style={`background:${tag.color};`}
 							aria-label={`tag color ${tag.color}`}
 						></span>

@@ -17,13 +17,13 @@
 {#snippet actions()}
 	<button
 		type="button"
-		class="rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700"
+		class="rounded-(--palette-radius) border border-(--palette-border) bg-(--palette-card) px-3 py-2 text-sm font-semibold text-(--palette-fg-muted)"
 	>
 		Cancel
 	</button>
 	<button
 		type="button"
-		class="rounded-xl bg-red-600 px-3 py-2 text-sm font-semibold text-white"
+		class="rounded-(--palette-radius) bg-(--palette-danger) px-3 py-2 text-sm font-semibold text-(--palette-fg-on-dark)"
 	>
 		Delete
 	</button>

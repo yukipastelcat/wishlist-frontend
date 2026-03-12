@@ -48,17 +48,17 @@
 	}
 </script>
 
-<div class="mx-auto w-full max-w-md rounded-2xl bg-white p-6 shadow-sm">
-	<h1 class="mb-4 text-xl font-semibold">{m.auth_login_title()}</h1>
+<div class="mx-auto w-full max-w-md rounded-(--palette-radius-lg) bg-(--palette-card) p-6 shadow-sm">
+	<h1 class="mb-4 text-xl font-semibold text-(--palette-fg)">{m.auth_login_title()}</h1>
 	{#if step === 'email'}
 		<GetCodeForm id={GET_CODE_FORM_ID} class="w-full" onsubmit={requestAuthCode} />
 	{:else if step === 'code'}
-		<p class="mb-2 text-sm text-slate-600">{m.auth_code_sent_to({ email })}</p>
+		<p class="mb-2 text-sm text-(--palette-fg-muted)">{m.auth_code_sent_to({ email })}</p>
 		<VerifyCodeForm id={VERIFY_CODE_FORM_ID} class="w-full" onsubmit={verifyAuthCode} />
 	{/if}
 
 	{#if error}
-		<p class="mt-3 text-sm text-red-600">{error}</p>
+		<p class="mt-3 text-sm text-(--palette-danger)">{error}</p>
 	{/if}
 
 	<menu class="mt-4 flex flex-row-reverse justify-start gap-2">

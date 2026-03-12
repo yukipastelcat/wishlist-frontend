@@ -194,7 +194,7 @@
 	<Dialog onclose={closeGiftDialog}>
 		{#snippet children()}
 			<div class="w-full max-w-2xl">
-				<h1 class="mb-4 text-2xl font-semibold">
+				<h1 class="mb-4 text-2xl font-semibold text-(--palette-fg)">
 					{giftDialogMode === 'create' ? m.gift_create_title() : m.gift_edit_title()}
 				</h1>
 				<GiftForm
@@ -204,7 +204,7 @@
 					availableTags={data.tags}
 				/>
 				{#if giftDialogError}
-					<p class="mt-3 text-sm text-red-600">{giftDialogError}</p>
+					<p class="mt-3 text-sm text-(--palette-danger)">{giftDialogError}</p>
 				{/if}
 			</div>
 		{/snippet}
@@ -224,10 +224,10 @@
 	<Dialog onclose={closeDeleteDialog}>
 		{#snippet children()}
 			<div class="w-full">
-				<h1 class="mb-4 text-2xl font-semibold">{m.gift_delete_title()}</h1>
-				<p class="text-slate-700">{m.gift_delete_confirm_message()}</p>
+				<h1 class="mb-4 text-2xl font-semibold text-(--palette-fg)">{m.gift_delete_title()}</h1>
+				<p class="text-(--palette-fg-muted)">{m.gift_delete_confirm_message()}</p>
 				{#if deleteDialogError}
-					<p class="mt-3 text-sm text-red-600">{deleteDialogError}</p>
+					<p class="mt-3 text-sm text-(--palette-danger)">{deleteDialogError}</p>
 				{/if}
 			</div>
 		{/snippet}
@@ -247,12 +247,12 @@
 	<Dialog onclose={closeDeleteDialog}>
 		{#snippet children()}
 			<div class="w-full">
-				<h1 class="mb-4 text-2xl font-semibold">{m.gift_delete_reserved_title()}</h1>
-				<div class="rounded-lg border-l-4 border-amber-400 bg-amber-50 p-4 text-amber-800">
+				<h1 class="mb-4 text-2xl font-semibold text-(--palette-fg)">{m.gift_delete_reserved_title()}</h1>
+				<div class="rounded-(--palette-radius) border-l-4 border-(--palette-sand) bg-(--palette-sand-tint) p-4 text-(--palette-sand-fg)">
 					{m.gift_delete_reserved_message()}
 				</div>
 				{#if deleteDialogError}
-					<p class="mt-3 text-sm text-red-600">{deleteDialogError}</p>
+					<p class="mt-3 text-sm text-(--palette-danger)">{deleteDialogError}</p>
 				{/if}
 			</div>
 		{/snippet}

@@ -128,21 +128,21 @@
 		{#each document.blocks as block, index (block.id ?? `${block.type}-${index}`)}
 			{@const text = toText(block.data)}
 			{#if block.type === 'header'}
-				<h3 class="text-lg font-semibold text-slate-900">
+				<h3 class="text-lg font-semibold text-(--palette-fg)">
 					{@html toInlineHtml((block.data as Record<string, unknown>).text)}
 				</h3>
 			{:else if block.type === 'list'}
 				{@const rawItems = (block.data as Record<string, unknown>).items}
 				{@const items = Array.isArray(rawItems) ? rawItems : []}
 				{#if items.length}
-					<ul class="list-disc pl-5 text-slate-700">
+					<ul class="list-disc pl-5 text-(--palette-fg-muted)">
 						{#each items as item}
 							<li>{@html toInlineHtml(item)}</li>
 						{/each}
 					</ul>
 				{/if}
 			{:else if text}
-				<p class="text-slate-700 leading-relaxed">
+				<p class="text-(--palette-fg-muted) leading-relaxed">
 					{@html toInlineHtml((block.data as Record<string, unknown>).text)}
 				</p>
 			{/if}

@@ -14,5 +14,5 @@
 	});
 </script>
 
-<p class="text-sm text-slate-600">Signing you out...</p>
+<p class="text-sm text-(--palette-fg-muted)">Signing you out...</p>
 

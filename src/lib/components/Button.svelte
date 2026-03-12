@@ -18,16 +18,16 @@
 	const classList = $derived.by(() => {
 		switch (skin) {
 			case 'text':
-				return 'bg-transparent text-sky-600 hover:text-sky-700 hover:bg-sky-50 active:bg-sky-100 active:text-sky-800';
+				return 'bg-transparent text-(--palette-fg-muted) hover:text-(--palette-fg) hover:bg-(--palette-bg-hover) active:bg-(--palette-bg-active)';
 			case 'outlined':
-				return 'bg-transparent border border-sky-700 text-sky-700 hover:bg-sky-50 hover:border-sky-800 active:bg-sky-100';
+				return 'bg-transparent border border-(--palette-accent) text-(--palette-accent-dark) hover:bg-(--palette-accent-tint) hover:border-(--palette-accent-hover) active:bg-(--palette-accent-tint)';
 			case 'cta':
-				return 'bg-(--palette-cta) text-white hover:bg-(--palette-cta-hover) active:bg-(--palette-cta-active)';
+				return 'bg-(--palette-cta) text-(--palette-fg-on-dark) hover:bg-(--palette-cta-hover) active:bg-(--palette-cta-active)';
 			case 'danger':
-				return 'bg-red-600 hover:bg-red-700 active:bg-red-800 text-white';
+				return 'bg-(--palette-danger) hover:bg-(--palette-danger-hover) active:bg-(--palette-danger-hover) text-(--palette-fg-on-dark)';
 			case 'contained':
 			default:
-				return 'bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white';
+				return 'bg-(--palette-accent) hover:bg-(--palette-accent-hover) active:bg-(--palette-accent-dark) text-(--palette-fg-on-dark)';
 		}
 	});
 </script>

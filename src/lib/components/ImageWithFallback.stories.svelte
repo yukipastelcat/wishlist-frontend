@@ -14,7 +14,7 @@
 	args={{
 		src: 'https://placehold.co/600x400/png',
 		alt: 'Placeholder image',
-		class: 'h-48 w-72 rounded-xl object-cover border border-slate-200'
+		class: 'h-48 w-72 rounded-(--palette-radius) object-cover border border-(--palette-border-light)'
 	}}
 />
 
@@ -23,7 +23,7 @@
 	args={{
 		src: 'https://example.com/this-image-does-not-exist.png',
 		alt: 'Broken image',
-		class: 'h-48 w-72 rounded-xl object-cover border border-slate-200'
+		class: 'h-48 w-72 rounded-(--palette-radius) object-cover border border-(--palette-border-light)'
 	}}
 />
 
@@ -33,7 +33,7 @@
 		src: 'https://placehold.co/1200x800/jpg',
 		alt: 'Large image',
 		loading: 'eager',
-		class: 'h-56 w-80 rounded-xl object-cover border border-slate-200'
+		class: 'h-56 w-80 rounded-(--palette-radius) object-cover border border-(--palette-border-light)'
 	}}
 />
 
