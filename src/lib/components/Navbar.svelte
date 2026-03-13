@@ -35,7 +35,7 @@
 	}
 </script>
 
-<header class="sticky h-16 flex itens-center top-0 z-10 bg-(--palette-accent) backdrop-blur-lg bg-[radial-gradient(var(--palette-bg)_2px,transparent_0)] bg-blend-multiply bg-size-[12px_12px]">
+<header class="sticky h-16 flex itens-center top-0 z-10 bg-(--palette-accent) backdrop-blur-lg bg-blend-multiply bg-[radial-gradient(var(--palette-card)_2px,transparent_0)] bg-size-[12px_12px]">
 	<div class="mx-auto flex w-[95%] max-w-5xl items-center justify-between px-4 sm:px-6 lg:px-8 bg-(--palette-card) relative top-8 rounded-lg shadow-lg">
 		<div
 			class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-(--palette-accent) to-(--palette-accent-dark) shadow-sm me-2"

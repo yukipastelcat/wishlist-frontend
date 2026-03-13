@@ -44,7 +44,7 @@
 	});
 
 	const totalColumns = $derived(Math.ceil(items.length / rowCount));
-	const totalContentWidth = $derived(totalColumns * (itemWidth + gap) - gap);
+	const totalContentWidth = $derived(totalColumns * (itemWidth + gap) + gap);
 
 	const visibleStartColumn = $derived(Math.max(0, Math.floor(scrollLeft / (itemWidth + gap)) - bufferCount));
 	const visibleEndColumn = $derived(Math.min(totalColumns, Math.ceil((scrollLeft + containerWidth) / (itemWidth + gap)) + bufferCount));
@@ -144,9 +144,10 @@
 				<div
 					class="absolute scroll-snap-start"
 					style="
+						padding-inline-start: {gap}px;
 						left: {column * (itemWidth + gap)}px;
 						top: {row * (itemHeight + gap)}px;
-						width: {itemWidth}px;
+						width: {itemWidth + gap}px;
 						height: {itemHeight}px;
 						scroll-snap-align: {column % columnsPerPage === 0 ? 'start' : 'none'};
 					"

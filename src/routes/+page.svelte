@@ -202,7 +202,7 @@
 	</div>
 {:else}
 	<div class="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen">
-		<div class="h-[calc(100vh-64px-32px-16px-40px-16px-16px-32px)] min-h-[520px] flex items-center px-8">
+		<div class="h-[calc(100vh-calc(var(--spacing)*16)-calc(var(--spacing)*8)-calc(var(--spacing)*4)-calc(var(--spacing)*10)-calc(var(--spacing)*4)-calc(var(--spacing)*4)-calc(var(--spacing)*8))] min-h-[520px] flex items-center">
 			<VirtualizedHorizontalList
 				bind:this={virtualizedList}
 				items={listItems}

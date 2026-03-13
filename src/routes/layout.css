@@ -133,3 +133,12 @@ html, body {
   --palette-radius:        10px;
   --palette-radius-lg:     16px;
 }
+
+@keyframes pattern-animate {
+		0% {
+			transform: translate3d(0px, 0px, 1px);
+		}
+		100% {
+			transform: translate3d(-800px, -800px, 1px);
+		}
+	}
